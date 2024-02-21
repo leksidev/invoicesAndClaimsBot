@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
+from db.connect import create_tables
 from utils.commands import set_commands
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -13,6 +14,7 @@ if os.path.exists(dotenv_path):
 
 async def start_bot(bot: Bot) -> None:
     await set_commands(bot)
+    await create_tables()
     await bot.send_message(os.environ["ADMIN_ID"], text="Бот запущен!")
 
 
