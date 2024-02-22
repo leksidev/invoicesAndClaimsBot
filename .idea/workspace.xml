@@ -4,13 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32adacc1-9cfd-4016-bc37-d8698000a2fb" name="Changes" comment="add: добавился хендлер для создания накладной">
-      <change afterPath="$PROJECT_DIR$/keyboards/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keyboards/client_keyboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/keyboards/manager_keyboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+    <list default="true" id="32adacc1-9cfd-4016-bc37-d8698000a2fb" name="Changes" comment="add: добавились клавиатуры основных меню клиента и менеджера">
+      <change afterPath="$PROJECT_DIR$/handlers/create_claim.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/handlers/main_menu.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/keyboards/create_invoice_keyboard.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repositories/claim.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/repositories/users.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/check_role.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handlers/create_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/create_invoice.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keyboards/client_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_keyboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/claims_orm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/claims_orm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/clients_orm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/clients_orm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/invoice_orm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/invoice_orm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/managers_orm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/managers_orm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repositories/invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/repositories/invoice.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +52,9 @@
     "Python.create_invoice.executor": "Run",
     "Python.database.executor": "Run",
     "Python.invoice.executor": "Run",
+    "Python.invoice_orm.executor": "Run",
     "Python.main.executor": "Run",
+    "Python.users.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
@@ -106,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708550597243</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add: добавились клавиатуры основных меню клиента и менеджера">
+      <option name="closed" value="true" />
+      <created>1708550935357</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1708550935357</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -128,6 +147,7 @@
     <MESSAGE value="add: создание базы с таблицами для хранения сущностей" />
     <MESSAGE value="refactor: вынесла модели в отдельные файлы" />
     <MESSAGE value="add: добавился хендлер для создания накладной" />
-    <option name="LAST_COMMIT_MESSAGE" value="add: добавился хендлер для создания накладной" />
+    <MESSAGE value="add: добавились клавиатуры основных меню клиента и менеджера" />
+    <option name="LAST_COMMIT_MESSAGE" value="add: добавились клавиатуры основных меню клиента и менеджера" />
   </component>
 </project>
