@@ -1,27 +1,34 @@
 import asyncio
 import logging
 import os
+
+from aiogram.fsm.storage.memory import MemoryStorage
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 
 from database import create_tables, delete_tables
 from utils.commands import set_commands
 
-from handlers import main_menu, create_invoice, create_claim
+from handlers import main_menu, create_invoice, create_claim, get_climes_list
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
 
+class UserRepository:
+    pass
+
+
 async def start_bot(bot: Bot) -> None:
     await create_tables()
+
     await set_commands(bot)
     await bot.send_message(os.environ["ADMIN_ID"], text="Бот запущен!")
 
 
 async def stop_bot(bot: Bot):
-    await delete_tables()
+    # await delete_tables()
     await bot.send_message(os.environ["ADMIN_ID"], text="Бот остановлен!")
 
 
@@ -32,12 +39,15 @@ async def start():
     )
     bot = Bot(token=os.environ["BOT_TOKEN"])
 
-    dp = Dispatcher()
+    dp = Dispatcher(storage=MemoryStorage())
 
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)
 
-    dp.include_routers(create_invoice.router, create_claim.router, main_menu.router)
+    dp.include_routers(create_invoice.router,
+                       create_claim.router,
+                       get_climes_list.router,
+                       main_menu.router)
 
     try:
         await dp.start_polling(bot)
