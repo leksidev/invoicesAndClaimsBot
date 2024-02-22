@@ -1,6 +1,12 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-pay_keyboard = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Оплата картой')],
-    [KeyboardButton(text='Оплата наличными')]
-], resize_keyboard=True, input_field_placeholder='Выберите способ оплаты:')
+from repositories.invoice import InvoiceRepository
+
+decision_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Cохранить", callback_data="save"), InlineKeyboardButton(text="Отмена", callback_data="cancel")]
+])
+
+pay_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Картой", callback_data="card"),
+     InlineKeyboardButton(text="Наличными", callback_data="cash")]
+])

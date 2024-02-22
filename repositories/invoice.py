@@ -7,8 +7,11 @@ from models.invoice_orm import InvoicesOrm
 class InvoiceRepository:
     @classmethod
     async def add_invoice(cls, invoice: InvoicesOrm) -> int:
-        async with new_session() as session:
-            invoice.weight = int(invoice.weight)
+        async with (new_session() as session):
+            invoice.weight = float(invoice.weight)
+            invoice.height = float(invoice.height)
+            invoice.width = float(invoice.width)
+            invoice.length = float(invoice.length)
             new_invoice = invoice
             session.add(invoice)
             await session.flush()
@@ -32,3 +35,13 @@ class InvoiceRepository:
             invoice_models = result.scalars().all()
             invoices = [invoice_model for invoice_model in invoice_models]
             return invoices
+
+    @classmethod
+    async def get_all_user_invoices(cls, client_id: int) -> list[int]:
+        async with new_session() as session:
+            query = select(InvoicesOrm).where(InvoicesOrm.client_id == client_id)
+            result = await session.execute(query)
+            invoice_models = result.scalars().all()
+            invoices = [invoice_model.invoice_id for invoice_model in invoice_models]
+            return invoices
+
