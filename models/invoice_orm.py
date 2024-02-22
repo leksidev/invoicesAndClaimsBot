@@ -1,4 +1,4 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, Float
+from sqlalchemy import ForeignKey, Column, Integer, String, Float, BIGINT
 from sqlalchemy.orm import relationship
 from models.clients_orm import ClientsOrm
 
@@ -11,11 +11,13 @@ class InvoicesOrm(Base):
     invoice_id = Column(Integer, primary_key=True)
     description = Column(String)
     weight = Column(Float)
-    size = Column(String)
+    height = Column(Float)
+    width = Column(Float)
+    length = Column(Float)
     from_address = Column(String)
     to_address = Column(String)
     pay_method = Column(String)
-    telegram_id = Column(Integer, ForeignKey('clients.telegram_id'))
+    client_id = Column(BIGINT, ForeignKey('clients.telegram_id'))
     client = relationship("ClientsOrm", back_populates="invoices")
     claims = relationship("ClaimsOrm", back_populates="invoices")
 
