@@ -1,5 +1,5 @@
-from sqlalchemy import ForeignKey, Column, Integer, String, Float
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy import ForeignKey, Column, Integer, String, Float, BIGINT
+from sqlalchemy.orm import relationship
 
 from database import Base
 
@@ -8,7 +8,7 @@ class ClaimsOrm(Base):
     __tablename__ = 'claims'
 
     claim_id = Column(Integer, primary_key=True)
-    client_id = Column(Integer, ForeignKey('clients.client_id'), unique=True)
+    client_id = Column(BIGINT, ForeignKey('clients.telegram_id'), unique=True)
     invoice_id = Column(Integer, ForeignKey('invoices.invoice_id'), unique=True)
     email = Column(String)
     description = Column(String)
@@ -17,6 +17,6 @@ class ClaimsOrm(Base):
 
     # Определяем отношение с таблицей клиентов
     client = relationship("ClientsOrm", back_populates="claims")
-    # Определяем отношение с таблицей счетов
+    # Определяем отношение с таблицей накладных
     invoices = relationship("InvoicesOrm", back_populates="claims")
 

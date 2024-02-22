@@ -1,11 +1,14 @@
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message, ReplyKeyboardRemove, InlineKeyboardButton, CallbackQuery
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from handlers.main_menu import UserStates
 from models.claims_orm import ClaimsOrm
 from repositories.claim import ClaimRepository
+from repositories.invoice import InvoiceRepository
+from repositories.users import UsersRepository
 
 router = Router()
 
@@ -22,14 +25,22 @@ class CreateClaim(StatesGroup):
 @router.message(F.text == "Зарегистрировать претензию")
 async def create_claim(message: Message, state: FSMContext):
     await state.set_state(CreateClaim.waiting_invoice_id)
-    await message.answer("Введите номер накладной:")
-    await state.update_data(invoice_id=0)
+    builder = InlineKeyboardBuilder()
+    users_invoices = await InvoiceRepository.get_all_user_invoices(message.from_user.id)
+    for invoice_id in users_invoices:
+        builder.add(InlineKeyboardButton(
+            text=str(invoice_id),
+            callback_data=str(invoice_id))
+        )
+    await message.answer("Введите номер накладной:", reply_markup=builder.as_markup())
+    await state.update_data(invoice_id="")
 
 
-@router.message(F.text, lambda message: message.text.isdigit(), CreateClaim.waiting_invoice_id)
-async def create_claim(message: Message, state: FSMContext):
+@router.callback_query(F.data, CreateClaim.waiting_invoice_id)
+async def create_claim(callback: CallbackQuery, state: FSMContext):
+    await state.update_data(invoice_id=int(callback.data))
     await state.set_state(CreateClaim.waiting_email)
-    await message.answer("Введите ваш email:")
+    await callback.message.answer("Введите ваш email:")
     await state.update_data(email="")
 
 
@@ -59,9 +70,9 @@ async def get_description(message: Message, state: FSMContext):
     await state.update_data(amount="")
 
 
-@router.message(F.text, lambda message: message.text.isdigit(), CreateClaim.waiting_amount)
+@router.message(F.text, F.text.regexp(r'^\d+(\.\d{1,2})?$'), CreateClaim.waiting_amount)
 async def get_amount(message: Message, state: FSMContext):
-    await state.update_data(amount=message.text)
+    await state.update_data(amount=float(message.text))
     await state.set_state(CreateClaim.waiting_docs)
     await message.answer("Прикрепите документы:")
     await state.update_data(docs="")
@@ -69,7 +80,7 @@ async def get_amount(message: Message, state: FSMContext):
 
 @router.message(F.text, CreateClaim.waiting_amount)
 async def incorrect_amount(message: Message):
-    await message.answer("Некорректная сумма. Пришлите, пожалуйста, сумму цифрами, например, 2000 или 2000.50.")
+    await message.answer("Некорректная сумма. Пришлите, пожалуйста, сумму цифрами, например, 2000 или 2000,50.")
 
 
 @router.message(F.photo, CreateClaim.waiting_docs)
