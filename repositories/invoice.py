@@ -8,9 +8,9 @@ class InvoiceRepository:
     @classmethod
     async def add_invoice(cls, invoice: InvoicesOrm) -> int:
         async with new_session() as session:
-            data = invoice.model_dump()
-            new_invoice = InvoicesOrm(**data)
-            session.add(new_invoice)
+            invoice.weight = int(invoice.weight)
+            new_invoice = invoice
+            session.add(invoice)
             await session.flush()
             await session.commit()
             return new_invoice.invoice_id

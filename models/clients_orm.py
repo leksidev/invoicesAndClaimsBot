@@ -1,12 +1,12 @@
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import mapped_column, Mapped, relationship
+from sqlalchemy import ForeignKey, Column, Integer, String
+from sqlalchemy.orm import relationship
 
 from database import Base
 
 
 class ClientsOrm(Base):
     __tablename__ = 'clients'
-    client_id: Mapped[int] = mapped_column(primary_key=True)
-    telegram_id: Mapped[str] = mapped_column(unique=True)
-    manager_id: Mapped[int] = mapped_column(ForeignKey('managers.manager_id'))
-    manager = relationship("ManagerOrm", back_populates="clients")
+    client_id = Column(Integer, primary_key=True)
+    telegram_id = Column(Integer, unique=True)
+    invoices = relationship("InvoicesOrm", back_populates="client")
+    claims = relationship("ClaimsOrm", back_populates="client")

@@ -7,4 +7,3 @@ class ManagersOrm(Base):
     __tablename__ = 'managers'
     manager_id: Mapped[int] = mapped_column(primary_key=True)
     telegram_id: Mapped[str] = mapped_column(unique=True)
-    clients = relationship("ClientOrm", back_populates="manager")
