@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardButton, InlineKeyboardMarkup
 
 main_menu_buttons = ['Сформировать накладную', 'Зарегистрировать претензию', 'Связаться с менеджером']
 
@@ -9,3 +9,13 @@ client_main_keyboard = ReplyKeyboardMarkup(keyboard=
                                            input_field_placeholder='Выберите действие: ',
                                            is_persistent=True,
                                            )
+
+decision_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Cохранить", callback_data="save"), InlineKeyboardButton(text="Отмена",
+                                                                                        callback_data="back_to_menu")]
+])
+
+pay_keyboard = InlineKeyboardMarkup(inline_keyboard=[
+    [InlineKeyboardButton(text="Карта", callback_data="Карта"),
+     InlineKeyboardButton(text="Наличные", callback_data="Наличные")]
+])

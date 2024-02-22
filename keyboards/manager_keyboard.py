@@ -9,3 +9,7 @@ manager_main_keyboard = ReplyKeyboardMarkup(keyboard=
                                             resize_keyboard=True,
                                             input_field_placeholder='Выберите действие: ',
                                             is_persistent=True)
+
+exit_to_main_menu = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='Вернуться в меню')]],
+                                        one_time_keyboard=True,
+                                        resize_keyboard=True)
