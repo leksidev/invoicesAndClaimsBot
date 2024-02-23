@@ -1,7 +1,7 @@
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, CallbackQuery
-from keyboards.client_keyboard import pay_keyboard, decision_keyboard
+from keyboards.client_keyboard import pay_keyboard, decision_keyboard, client_main_keyboard
 from keyboards.service_keys import inline_back_to_menu
 from models.model import Invoice
 from services import add_invoice
@@ -84,11 +84,10 @@ async def get_invoice_pay_method(message: Message, state: FSMContext):
     await state.update_data(to_address=message.text)
     await state.set_state(ClientSubStates.ADDING_INVOICE_PAY_METHOD)
     await message.answer("Выберите способ оплаты", reply_markup=pay_keyboard)
-    await message.answer("Если хотите отменить создание накладной, нажмите кнопку ниже.",
-                         reply_markup=inline_back_to_menu)
 
 
-@router.callback_query(F.data.in_(["cash", "card"]), ClientSubStates.ADDING_INVOICE_PAY_METHOD)
+
+@router.callback_query(F.data.in_(["Карта", "Наличные"]), ClientSubStates.ADDING_INVOICE_PAY_METHOD)
 async def save_invoice(callback: CallbackQuery, state: FSMContext):
     await state.update_data(pay_method=callback.data)
     await state.update_data(client_id=callback.from_user.id)
@@ -108,7 +107,9 @@ async def save_invoice(callback: CallbackQuery, state: FSMContext):
 async def save_invoice(callback: CallbackQuery, state: FSMContext):
     invoice = await state.get_data()
     new_id = await add_invoice(Invoice(**invoice))
-    await callback.message.answer(f'Ваша накладная #{new_id} сохранена в базе данных\n\n',
-                                  reply_markup=inline_back_to_menu)
+    await callback.message.answer(f'Ваша накладная #{new_id} сохранена в базе данных\n\n'
+                                  f'Вы вышли в главное меню',
+                                  reply_markup=client_main_keyboard)
     await state.clear()
     await state.set_state(ClientMainStates.in_main_menu)
+

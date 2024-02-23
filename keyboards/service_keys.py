@@ -6,5 +6,5 @@ back_to_menu = ReplyKeyboardMarkup(
 
 inline_back_to_menu = InlineKeyboardMarkup(inline_keyboard=[
     [
-        InlineKeyboardButton(text=f"Нажмите, чтобы отменить операцию и \n вернуться в меню",
+        InlineKeyboardButton(text=f"Нажмите, чтобы вернуться в меню",
                              callback_data="back_to_menu")]])

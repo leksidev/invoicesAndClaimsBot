@@ -4,31 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32adacc1-9cfd-4016-bc37-d8698000a2fb" name="Changes" comment="fix: добавлена проверка наличия юзера в базе и memoryStorage для хранения FMS">
-      <change afterPath="$PROJECT_DIR$/keyboards/chat_keyboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/states.py" afterDir="false" />
+    <list default="true" id="32adacc1-9cfd-4016-bc37-d8698000a2fb" name="Changes" comment="refactor: состояния вынесены в отдельный файл, оптимизированы хендлеры">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/create_claim.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/create_claim.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/create_invoice.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/create_invoice.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/get_climes_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/get_climes_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/handlers/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/main_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards/client_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/client_keyboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards/create_invoice_keyboard.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards/manager_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/manager_keyboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/keyboards/chat_keyboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/chat_keyboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/keyboards/service_keys.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards/service_keys.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/chat_orm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/claims_orm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/clients_orm.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/invoice_orm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/managers_orm.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/repositories/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repositories/claim.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/repositories/invoice.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/repositories/users.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/check_role.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/check_role.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services.py" beforeDir="false" afterPath="$PROJECT_DIR$/services.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +246,31 @@
       <option name="project" value="LOCAL" />
       <updated>1708603357376</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="refactor: оптимизирован код взаимодействия с базой данных">
+      <option name="closed" value="true" />
+      <created>1708646022669</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1708646022669</updated>
+    </task>
+    <task id="LOCAL-00019" summary="refactor: добавлена кнопка выхода в главное меню, удалены ее аналоги">
+      <option name="closed" value="true" />
+      <created>1708646064505</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1708646064505</updated>
+    </task>
+    <task id="LOCAL-00020" summary="refactor: состояния вынесены в отдельный файл, оптимизированы хендлеры">
+      <option name="closed" value="true" />
+      <created>1708646115335</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1708646115335</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -297,6 +304,9 @@
     <MESSAGE value="feat: оптимизирован процесс добавления инвойса (интерфейс)" />
     <MESSAGE value="feat: добавлена кнопка выхода в главное меню для интерфейса накладных" />
     <MESSAGE value="fix: добавлена проверка наличия юзера в базе и memoryStorage для хранения FMS" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: добавлена проверка наличия юзера в базе и memoryStorage для хранения FMS" />
+    <MESSAGE value="refactor: оптимизирован код взаимодействия с базой данных" />
+    <MESSAGE value="refactor: добавлена кнопка выхода в главное меню, удалены ее аналоги" />
+    <MESSAGE value="refactor: состояния вынесены в отдельный файл, оптимизированы хендлеры" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: состояния вынесены в отдельный файл, оптимизированы хендлеры" />
   </component>
 </project>

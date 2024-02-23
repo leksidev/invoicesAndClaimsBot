@@ -36,7 +36,7 @@ async def send_chat_request(chat_request: ChatRequest):
 
 async def close_chat(chat_id: int) -> int:
     async with new_session() as session:
-        query = select(ChatRequest).where(ChatRequest.manager_id == chat_id)
+        query = select(ChatRequest).where(ChatRequest.manager_id == chat_id or ChatRequest.client_id == chat_id)
         result = await session.execute(query)
         chat_request = result.scalar()
         chat_request.is_opened = False
@@ -44,6 +44,14 @@ async def close_chat(chat_id: int) -> int:
         await session.flush()
         await session.commit()
         return chat_request
+
+
+async def check_chat_status(chat_id: int) -> bool:
+    async with new_session() as session:
+        query = select(ChatRequest).where(ChatRequest.manager_id == chat_id or ChatRequest.client_id == chat_id)
+        result = await session.execute(query)
+        chat_request = result.scalar()
+        return chat_request.is_opened
 
 
 async def add_client(client: Client) -> int:

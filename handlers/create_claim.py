@@ -4,6 +4,7 @@ from aiogram.types import Message, InlineKeyboardButton, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from handlers.main_menu import ClientMainStates
+from keyboards.client_keyboard import client_main_keyboard
 from keyboards.service_keys import inline_back_to_menu
 from models.model import Claim
 from services import add_claim
@@ -81,9 +82,10 @@ async def get_docs(message: Message, state: FSMContext):
 
     await state.set_state(CreateClaim.done)
 
-    await message.answer("Зарегистрировано!", reply_markup=inline_back_to_menu)
     await state.clear()
     await state.set_state(ClientMainStates.in_main_menu)
+    await message.answer("Зарегистрировано!", reply_markup=client_main_keyboard)
+
 
 
 @router.message(F.text, CreateClaim.waiting_docs)

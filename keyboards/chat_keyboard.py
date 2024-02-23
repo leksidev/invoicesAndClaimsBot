@@ -1,5 +1,9 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
-chat_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[KeyboardButton(text="Покинуть чат")]],
+open_chat_keyboard = InlineKeyboardMarkup(
+    inline_keyboard=[[InlineKeyboardButton(text="Открыть чат", callback_data="open_chat")]],
+)
+
+close_chat_keyboard = InlineKeyboardMarkup(
+    inline_keyboard=[[InlineKeyboardButton(text="Закрыть чат", callback_data="close_chat")]],
 )
