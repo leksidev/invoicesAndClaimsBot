@@ -1,15 +1,13 @@
 import logging
 import os
 
-from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.storage.redis import RedisStorage
 from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
-
 from database import create_tables, delete_tables
 from models.model import Manager
 from services import add_manager
 from utils.commands import set_commands
-
 from handlers import main_menu, create_invoice, create_claim, get_climes_list
 
 dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
@@ -25,7 +23,7 @@ async def start_bot(bot: Bot) -> None:
 
 
 async def stop_bot(bot: Bot):
-    await delete_tables()
+    # await delete_tables()
     await bot.send_message(os.environ["ADMIN_ID"], text="Бот остановлен!")
 
 
@@ -36,7 +34,8 @@ async def start():
     )
     bot = Bot(token=os.environ["BOT_TOKEN"])
 
-    dp = Dispatcher(storage=MemoryStorage())
+    store = RedisStorage.from_url(f"redis://{os.environ['REDIS_HOST']}:{os.environ['REDIS_PORT']}/0")
+    dp = Dispatcher(storage=store)
 
     dp.startup.register(start_bot)
     dp.shutdown.register(stop_bot)

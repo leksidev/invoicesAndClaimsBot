@@ -78,7 +78,7 @@ async def create_invoice(message: Message, state: FSMContext):
 
 
 @router.message(F.text == "Связаться с менеджером", ClientMainStates.in_main_menu)
-async def chat_with_manager(message: Message, state: FSMContext):
+async def chat_with_manager(message: Message):
     manager_id = await get_manager_id(message.chat.id)
     chat_request = ChatRequest(client_id=message.from_user.id, manager_id=manager_id)
     await send_chat_request(chat_request)
@@ -123,7 +123,6 @@ async def send_to_manager(message: Message, state: FSMContext):
         await state.set_state(ClientMainStates.in_main_menu)
 
 
-
 @router.callback_query(F.data == "close_chat", ManagerMainStates.in_active_chat)
 async def finish_chat(callback: CallbackQuery, state: FSMContext):
     await state.set_state(ManagerMainStates.in_main_menu)
@@ -143,8 +142,6 @@ async def finish_chat(callback: CallbackQuery, state: FSMContext):
     await bot.send_message(manager_id, "Чат завершен.")
     await callback.message.answer("Чат завершен. Вы вернулись в главное меню.")
 
-
-# TODO
 
 @router.message(F.text, ManagerMainStates.in_active_chat)
 async def send_message(message: Message, state: FSMContext):
@@ -201,7 +198,7 @@ async def start(message: Message, state: FSMContext):
 
 
 @router.message(ClientMainStates.in_main_menu or ManagerMainStates.in_main_menu)
-async def in_main_menu(message: Message, state: FSMContext):
+async def in_main_menu(message: Message):
     user_id = message.from_user.id
     manager = await if_manager(user_id)
     greeting_message = f"Здравствуйте, {message.from_user.first_name}. Выберите действие:"
