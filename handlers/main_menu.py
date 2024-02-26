@@ -13,6 +13,7 @@ from keyboards.chat_keyboard import close_chat_keyboard
 from keyboards.client_keyboard import client_main_keyboard
 from keyboards.manager_keyboard import manager_main_keyboard
 from keyboards.service_keys import inline_back_to_menu
+from middlewares.not_complete_action import SlowpokeMiddleware
 
 from models.model import Client, ChatRequest
 
@@ -28,6 +29,7 @@ if os.path.exists(dotenv_path):
 
 router = Router()
 bot = Bot(token=os.environ["BOT_TOKEN"])
+router.callback_query.middleware(SlowpokeMiddleware(bot))
 
 
 @router.callback_query(F.data == "back_to_menu", CreateClaim.waiting_invoice_id)
@@ -47,6 +49,7 @@ bot = Bot(token=os.environ["BOT_TOKEN"])
 async def back_to_main_menu(callback: CallbackQuery, state: FSMContext):
     await state.clear()
     await state.set_state(ClientMainStates.in_main_menu)
+
     await callback.message.answer("Вы вернулись в главное меню", reply_markup=client_main_keyboard)
 
 
@@ -78,7 +81,7 @@ async def create_invoice(message: Message, state: FSMContext):
 
 
 @router.message(F.text == "Связаться с менеджером", ClientMainStates.in_main_menu)
-async def chat_with_manager(message: Message, state: FSMContext):
+async def chat_with_manager(message: Message):
     manager_id = await get_manager_id(message.chat.id)
     chat_request = ChatRequest(client_id=message.from_user.id, manager_id=manager_id)
     await send_chat_request(chat_request)
@@ -94,7 +97,7 @@ async def chat_with_manager(message: Message, state: FSMContext):
     F.data.startswith("чат id:")
 )
 async def open_chat(callback: CallbackQuery, state: FSMContext):
-    await state.set_state(ManagerMainStates.in_active_chat)
+    # await state.set_state(ManagerMainStates.in_active_chat)
     chat_id = int(callback.data.split(":")[1])
     await callback.message.answer("Чат с клиентом открыт.")
     await state.update_data(chat_id=chat_id)
@@ -108,7 +111,14 @@ async def open_chat(callback: CallbackQuery, state: FSMContext):
 async def connect_to_chat(callback: CallbackQuery, state: FSMContext):
     await state.set_state(ClientMainStates.in_support_chat)
     await state.update_data(chat_id=callback.from_user.id)
+    manager_id = await get_manager_id(callback.message.chat.id)
+    await bot.send_message(manager_id, f"Запрос на подключение к чату от {callback.from_user.full_name} принят.")
     await bot.send_message(callback.from_user.id, "Отправьте ваше сообщение", reply_markup=close_chat_keyboard)
+
+
+@router.message(F.text.startswith("Запрос"))
+async def send_to_client(message: Message, state: FSMContext):
+    await state.set_state(ManagerMainStates.in_active_chat)
 
 
 @router.message(F.text, ClientMainStates.in_support_chat)
@@ -121,7 +131,6 @@ async def send_to_manager(message: Message, state: FSMContext):
     else:
         await message.answer("Невозможно отправить сообщение. Пожалуйста, переподключитесь к чату.")
         await state.set_state(ClientMainStates.in_main_menu)
-
 
 
 @router.callback_query(F.data == "close_chat", ManagerMainStates.in_active_chat)
@@ -143,8 +152,6 @@ async def finish_chat(callback: CallbackQuery, state: FSMContext):
     await bot.send_message(manager_id, "Чат завершен.")
     await callback.message.answer("Чат завершен. Вы вернулись в главное меню.")
 
-
-# TODO
 
 @router.message(F.text, ManagerMainStates.in_active_chat)
 async def send_message(message: Message, state: FSMContext):
@@ -201,14 +208,14 @@ async def start(message: Message, state: FSMContext):
 
 
 @router.message(ClientMainStates.in_main_menu or ManagerMainStates.in_main_menu)
-async def in_main_menu(message: Message, state: FSMContext):
+async def in_main_menu(message: Message):
     user_id = message.from_user.id
     manager = await if_manager(user_id)
-    greeting_message = f"Здравствуйте, {message.from_user.first_name}. Выберите действие:"
-
+    # greeting_message = f"Здравствуйте, {message.from_user.first_name}. Выберите действие:"
+    error_message = "неизвестная команда. Для выбора действия воспользуйтесь меню."
     if manager:
         reply_markup = manager_main_keyboard
     else:
         reply_markup = client_main_keyboard
 
-    await message.answer(greeting_message, reply_markup=reply_markup)
+    await message.answer(error_message, reply_markup=reply_markup)
