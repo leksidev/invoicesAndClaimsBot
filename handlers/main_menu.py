@@ -97,7 +97,7 @@ async def chat_with_manager(message: Message):
     F.data.startswith("чат id:")
 )
 async def open_chat(callback: CallbackQuery, state: FSMContext):
-    # await state.set_state(ManagerMainStates.in_active_chat)
+    await state.set_state(ManagerMainStates.in_active_chat)
     chat_id = int(callback.data.split(":")[1])
     await callback.message.answer("Чат с клиентом открыт.")
     await state.update_data(chat_id=chat_id)
@@ -115,10 +115,10 @@ async def connect_to_chat(callback: CallbackQuery, state: FSMContext):
     await bot.send_message(manager_id, f"Запрос на подключение к чату от {callback.from_user.full_name} принят.")
     await bot.send_message(callback.from_user.id, "Отправьте ваше сообщение", reply_markup=close_chat_keyboard)
 
-
-@router.message(F.text.startswith("Запрос"))
-async def send_to_client(message: Message, state: FSMContext):
-    await state.set_state(ManagerMainStates.in_active_chat)
+# @router.message(F.text.startswith("Запрос"))
+# async def send_to_client(message: Message, state: FSMContext):
+#     await state.set_state(ManagerMainStates.in_active_chat)
+#     await message.answer("Отправьте ваше сообщение", reply_markup=close_chat_keyboard)
 
 
 @router.message(F.text, ClientMainStates.in_support_chat)
