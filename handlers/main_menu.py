@@ -201,11 +201,11 @@ async def start(message: Message, state: FSMContext):
 async def in_main_menu(message: Message):
     user_id = message.from_user.id
     manager = await if_manager(user_id)
-    greeting_message = f"Здравствуйте, {message.from_user.first_name}. Выберите действие:"
-
+    # greeting_message = f"Здравствуйте, {message.from_user.first_name}. Выберите действие:"
+    error_message = "неизвестная команда. Для выбора действия воспользуйтесь меню."
     if manager:
         reply_markup = manager_main_keyboard
     else:
         reply_markup = client_main_keyboard
 
-    await message.answer(greeting_message, reply_markup=reply_markup)
+    await message.answer(error_message, reply_markup=reply_markup)
