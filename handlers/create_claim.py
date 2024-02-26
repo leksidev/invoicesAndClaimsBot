@@ -87,7 +87,6 @@ async def get_docs(message: Message, state: FSMContext):
     await message.answer("Зарегистрировано!", reply_markup=client_main_keyboard)
 
 
-
 @router.message(F.text, CreateClaim.waiting_docs)
 async def incorrect_docs(message: Message):
     await message.answer("Некорректные документы. Пришлите, пожалуйста, документы, например, фото, "

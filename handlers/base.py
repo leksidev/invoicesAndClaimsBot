@@ -23,7 +23,7 @@ async def start_bot(bot: Bot) -> None:
 
 
 async def stop_bot(bot: Bot):
-    # await delete_tables()
+    await delete_tables()
     await bot.send_message(os.environ["ADMIN_ID"], text="Бот остановлен!")
 
 
