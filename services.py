@@ -67,13 +67,16 @@ async def add_client(client: Client) -> int:
 
 async def add_manager(manager: Manager) -> int:
     async with new_session() as session:
-        query = select(Manager).where(Manager.manager_id == manager.manager_id)
+        query = select(Manager).where(Manager.telegram_id == manager.telegram_id)
         result = await session.execute(query)
         if not result.scalar():
             session.add(manager)
             await session.flush()
             await session.commit()
-            return manager.manager_id
+            return manager.telegram_id
+        else:
+            return 0
+
 
 
 async def add_manager_to_client(client_id: int, manager_id: int) -> int:
